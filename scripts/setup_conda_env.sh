@@ -80,8 +80,8 @@ version_lt() {
     fi
 }
 
-# 检查版本是否过旧（低于 25.0.0）
-MIN_REQUIRED_VERSION="25.0.0"
+# 检查版本是否过旧（低于 4.0.0）
+MIN_REQUIRED_VERSION="4.0.0"
 if version_lt "$CONDA_VERSION" "$MIN_REQUIRED_VERSION"; then
     echo ""
     echo "⚠️  检测到 conda 版本过旧（当前: $CONDA_VERSION，最低要求: $MIN_REQUIRED_VERSION）"
@@ -494,9 +494,8 @@ echo "项目根目录: $PROJECT_ROOT"
 echo ""
 echo "使用方法:"
 echo "  1. 激活环境: conda activate $ENV_NAME"
-echo "  2. 运行仿真: cd $PROJECT_ROOT && ./scripts/start_mujoco.sh"
-echo "  3. 运行硬件: cd $PROJECT_ROOT && sudo ./scripts/run_controller.sh"
-echo "  4. 编辑配置: cd $PROJECT_ROOT && python3 scripts/config_editor.py"
+echo "  2. 启动仿真环境: cd $PROJECT_ROOT && python mujoco_sim/mujoco_simulator.py"
+echo "  3. 启动算法（在另一个终端）: cd $PROJECT_ROOT && bash scripts/run_controller.sh"
 echo ""
 echo "注意:"
 echo "  - 每次使用前请先激活 conda 环境: conda activate $ENV_NAME"

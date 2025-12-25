@@ -66,6 +66,17 @@ python scripts/calibrate_gamepad.py
 
 **请将生成的映射配置复制到 `config.yaml` 的 `gamepad` 部分**。
 
+**注意**：确保您的 conda 环境路径在 `config.yaml` 的 `algorithm_launcher.conda_search_paths` 配置中。如果您的 conda 环境路径不在列表中，请添加您的实际路径，例如：
+```yaml
+algorithm_launcher:
+  conda_search_paths:
+    - "/data/ubuntu20_user/conda_env/humanoid_controller"
+    - "$HOME/miniconda3/envs/humanoid_controller"
+    - "$HOME/anaconda3/envs/humanoid_controller"
+    - "/opt/conda/envs/humanoid_controller"
+    - "您的实际conda环境路径"  # 添加您的路径
+```
+
 ---
 
 ## 使用说明

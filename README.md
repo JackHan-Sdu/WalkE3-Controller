@@ -66,6 +66,17 @@ The calibration script will:
 
 **Copy the generated mappings to the `gamepad` section in `config.yaml`**.
 
+**Note**: Ensure your conda environment path is included in the `algorithm_launcher.conda_search_paths` configuration in `config.yaml`. If your conda environment path is not in the list, please add your actual path, for example:
+```yaml
+algorithm_launcher:
+  conda_search_paths:
+    - "/data/ubuntu20_user/conda_env/humanoid_controller"
+    - "$HOME/miniconda3/envs/humanoid_controller"
+    - "$HOME/anaconda3/envs/humanoid_controller"
+    - "/opt/conda/envs/humanoid_controller"
+    - "your_actual_conda_path"  # Add your path
+```
+
 ---
 
 ## Usage
