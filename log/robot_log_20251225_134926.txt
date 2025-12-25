@@ -1,0 +1,102 @@
+
+========== Log Session Started: 2025-12-25 13:49:26 ==========
+[37m[LogSaver] Logging enabled, saving to: /home/user/Jianghan/Code/deploy/walker_controller/log/robot_log_20251225_134926.txt[0m
+[37m[Yobotics Humanoid E3] Starting in MuJoCo simulation mode[0m
+[37m[MuJoCo] Initialized | dt=0.002s | decimation=1[0m
+[37m[SimulationBridge] Config | dt=0.002s | RC=ON | Cheater=OFF[0m
+[37m[RC Interface] Read device_type from config: gamepad[0m
+[92m[AlgoLauncher] Conda environment: humanoid_controller (/data/ubuntu20_user/conda_env/humanoid_controller/bin/python)[0m
+[92m[AlgoLauncher] Required packages: numpy✓, yaml✓[0m
+[37m[AlgoLauncher] enabled=1, scripts=2, python_bin=python3[0m
+[37m  [0] dance_algorithm_getup -> ./Algorithm_Template_For_Developer/dance_algorithm_getup/run_algorithm.py[0m
+[37m  [1] dance_algorithm_chair -> ./Algorithm_Template_For_Developer/dance_algorithm_chair/run_algorithm.py[0m
+[37m  [AT9S] varB in [0, 1) -> idx 0 (dance_algorithm_getup)[0m
+[37m  [AT9S] varB in [1, +inf) -> idx 1 (dance_algorithm_chair)[0m
+[37m[RC Interface] Initializing gamepad driver...[0m
+[92m[Gamepad] Axis mapping loaded from config: L(X=0, Y=1), R(X=2, Y=3)[0m
+[92m[Gamepad] Button mapping loaded from config: LB=4, RB=5, Back=8, Start=9, A=1, B=2, X=3, Y=0[0m
+[92m[Gamepad] Mode sequence loaded: OFF, RL_HYBRID, RL_WALK, DEVELOPMENT (4 modes)[0m
+[92m[Gamepad] Device initialized: /dev/input/js0[0m
+[37m[RC Interface] Gamepad driver initialized successfully[0m
+[37m[RC Interface] Final state: g_use_gamepad_driver=1, g_gamepad_driver_initialized=1[0m
+[37m[SimulationBridge] RC interface initialized: using_gamepad=1[0m
+[37m[SimulationBridge] Started gamepad controller task[0m
+[37m[SimulationBridge] Running...
+[0m
+[37m[RobotRunner] Using LCM communication[0m
+[37m[RobotRunner] LCM channels - State: HUMANOID_JOINT_STATE_01 | Command: HUMANOID_JOINT_COMMAND_01[0m
+[33m[RL_Walk] Config | Model: HumanActornet.onnx | Mode: Sim | dt=0.02s | decimation=10[0m
+[33m[RL_Walk] Using embedded ONNX models (from memory)[0m
+[33m[RL_Walk] Warming up ONNX models (500 iterations)...[0m
+[33m[RL_Walk] ONNX models warmed up successfully[0m
+[33m[RL_Walk] Self-check thresholds: roll=0.3 rad, pitch=0.3 rad[0m
+[33m[RL_Walk] Hidden state file found: /home/user/Jianghan/Code/deploy/walker_controller/log/walk_hidden_state.bin (will be loaded on enter)[0m
+[33m[RL_Walk] Hidden state saving disabled (save_state=false)[0m
+[94m[RL_Dance] Config | Model: HumanActornet.onnx | Motion: E3Getup350.npz | dt=0.02s | decimation=10 | pre=200 | trans_pre=100[0m
+[94m[RL_Dance] Using embedded ONNX model (from memory)[0m
+[94m[RL_Dance] Warming up ONNX model (500 iterations)...[0m
+[94m[RL_Dance] ONNX model warmed up successfully[0m
+[94m[RL_Dance] Self-check thresholds:[0m
+[94m  Start frame - roll: 0.4 rad, pitch: 0.4 rad[0m
+[94m  Motion frame - roll: 10 rad, pitch: 0.5 rad[0m
+[94m[RL_Dance] Successfully loaded action buffer from: /home/user/Jianghan/Code/deploy/walker_controller/log/hybrid_dance_action_buffer_walk.bin[0m
+[36m[RL_Hybrid] Using embedded dance ONNX model (from memory)[0m
+[36m[RL_Hybrid] Using embedded walk ONNX models (from memory)[0m
+[36m[RL_Hybrid] Warming up ONNX models...[0m
+[36m[RL_Hybrid] Warming up dance model (500 iterations)...[0m
+[36m[RL_Hybrid] Dance model warmed up successfully[0m
+[36m[RL_Hybrid] Warming up walk model (500 iterations)...[0m
+[36m[RL_Hybrid] Walk model warmed up successfully[0m
+[36m[RL_Hybrid] Transition max iterations: 1500[0m
+[36m[RL_Hybrid] Self-check thresholds:[0m
+[36m  Transition - max_step: 0.2 rad, max_velocity: 5 rad/s[0m
+[36m  Dance - roll: 0.3 rad, pitch: 0.2 rad, joint: 0.2 rad[0m
+[36m  Walk - roll: 0.2 rad, pitch: 0.2 rad[0m
+[36m[RL_Hybrid] Walk hidden state file found: /home/user/Jianghan/Code/deploy/walker_controller/log/hybrid_walk_hidden_state.bin (will be loaded on enter)[0m
+[36m[RL_Hybrid] Walk hidden state saving disabled (walk_save_state=false)[0m
+[35m[Development] Config | Model: HumanActornet.onnx | Mode: Sim | dt=0.02s | decimation=10[0m
+[35m[Development] Robot ID: E3[0m
+[35m[Development] State Channel: E3_development_state_01[0m
+[35m[Development] Command Channel: E3_development_command_01[0m
+[35m[Development] Self-check thresholds - Roll: 0.3 rad, Pitch: 0.3 rad[0m
+[35m[Development] Using embedded ONNX models (from memory)[0m
+[35m[Development] Warming up ONNX models (500 iterations)...[0m
+[35m[Development] ONNX models warmed up successfully[0m
+[35m[Development] Hidden state file found: /home/user/Jianghan/Code/deploy/walker_controller/log/development_hidden_state.bin (will be loaded on enter)[0m
+[35m[Development] Hidden state saving disabled (save_state=false)[0m
+[92m[SafetyChecker] Checks | Ori:OFF Torque:OFF Vel:OFF Pos:OFF LegVel:ON HwLoss:OFF HwLossPrint:ON[0m
+[92m[SafetyChecker] Loaded 21 joints from URDF (margin=0.9)[0m
+[37m[Gamepad] [2025-12-25 13:49:29.425] Mode switch: OFF -> RL_HYBRID[0m
+[94m[2025-12-25 13:49:29] [FSM] Exiting state: PASSIVE[0m
+[36m[2025-12-25 13:49:29] [FSM] Entering state: RL_HYBRID[0m
+[36m[RL_Hybrid] Not in WALK mode: Pitch=1.38937 rad > threshold=0.2 rad[0m
+[36m[RL_Hybrid] Initial self-check: TRANSITION mode detected[0m
+[36m[RL_Hybrid] Starting phase: TRANSITION (to UP position)[0m
+[36m[RL_Hybrid] Successfully loaded walk hidden state from: /home/user/Jianghan/Code/deploy/walker_controller/log/hybrid_walk_hidden_state.bin[0m
+[36m[RL_Hybrid] Successfully loaded dance action buffer (for TRANSITION) from: /home/user/Jianghan/Code/deploy/walker_controller/log/hybrid_dance_action_buffer_transition.bin[0m
+[36m[RL_Hybrid] Starting phase: DANCE (from UP timestep, playing to end)[0m
+[36m[RL_Hybrid] Starting phase: WALK[0m
+[36m[RL_Hybrid] Successfully loaded walk hidden state from: /home/user/Jianghan/Code/deploy/walker_controller/log/hybrid_walk_hidden_state.bin[0m
+[36m[RL_Hybrid] Walk hidden state loaded from file[0m
+[91m[SafetyChecker] Hardware LOST: L_Arm_J2 (vel=0.0101732 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: L_Leg_J0 (vel=-0.00278755 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: L_Leg_J1 (vel=0.0268484 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: L_Leg_J2 (vel=0.0191853 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: L_Leg_J3 (vel=0.0139156 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: L_Leg_J4 (vel=-0.00670601 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: L_Leg_J5 (vel=-0.0194133 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: R_Leg_J0 (vel=-0.021988 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: R_Leg_J1 (vel=0.00846377 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: R_Leg_J2 (vel=0.0236295 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: R_Leg_J3 (vel=0.034229 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: R_Leg_J4 (vel=-0.0210921 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: R_Leg_J5 (vel=-0.0064851 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: Waist (vel=0.00610086 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: L_Arm_J0 (vel=-0.00438182 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: L_Arm_J1 (vel=0.0187266 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: L_Arm_J3 (vel=-0.005529 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: R_Arm_J0 (vel=-0.0113485 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: R_Arm_J1 (vel=0.0130245 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: R_Arm_J2 (vel=0.0138814 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: R_Arm_J3 (vel=-0.000937741 rad/s) [2025-12-25 13:50:06][0m
+[91m[SafetyChecker] Hardware LOST: IMU (omega=[3.15068e-05, 0.00477833, -0.019925] rad/s) [2025-12-25 13:50:06][0m

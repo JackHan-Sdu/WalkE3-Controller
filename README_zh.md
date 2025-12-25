@@ -99,9 +99,16 @@ python mujoco_sim/mujoco_simulator.py
 # 确保已激活 conda 环境
 conda activate humanoid_controller
 
-# 启动控制器算法
-bash scripts/run_controller.sh
+# 启动控制器算法（推荐：指定配置文件）
+bash scripts/run_controller.sh ./config.yaml
+
+# 或直接指定可执行文件路径
+bash scripts/run_controller.sh ./human_ctrl
+# 或开发环境：
+bash scripts/run_controller.sh ./build/user/MIT_Controller/human_ctrl
 ```
+
+**注意**：`run_controller.sh` 脚本可以接受配置文件路径（`config.yaml`）或可执行文件路径作为参数。如果指定配置文件，脚本会自动查找对应的可执行文件。
 
 ---
 

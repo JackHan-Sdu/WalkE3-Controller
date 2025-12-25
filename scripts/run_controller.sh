@@ -1,11 +1,7 @@
 #!/bin/bash
-#
-# 人形机器人控制器运行脚本
-# 用于运行 human_ctrl 控制器程序
-#
+
 # 作者: Han Jiang (jh18954242606@163.com)
 # 日期: 2025-12
-#
 
 
 # 颜色定义
@@ -15,37 +11,137 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
+# 检查是否指定了参数
+if [ $# -eq 0 ]; then
+    echo -e "${RED}错误: 请指定配置文件或可执行文件路径${NC}"
+    echo ""
+    echo "使用方法:"
+    echo "  $0 <config.yaml路径> [其他参数...]"
+    echo "  $0 <可执行文件路径> [其他参数...]"
+    echo ""
+    echo "示例:"
+    echo "  $0 ./config.yaml"
+    echo "  $0 ./human_ctrl"
+    echo "  $0 ./build/user/MIT_Controller/human_ctrl"
+    echo ""
+    exit 1
+fi
+
 # 获取脚本所在目录
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-# 检测是否在打包后的目录结构还是开发环境
-# 打包后的结构：脚本在 scripts/ 目录下，且上一级目录有 human_ctrl
-# 开发环境：脚本在 scripts/ 目录下，且上一级目录的 build/ 下有 human_ctrl
-if [ "$(basename "${SCRIPT_DIR}")" = "scripts" ] && [ -f "${SCRIPT_DIR}/../human_ctrl" ]; then
-    # 打包后的结构：脚本在 scripts/ 目录下，human_ctrl 在上一级目录
-    PROJECT_ROOT="${SCRIPT_DIR}/.."
-    CONTROLLER_EXE="${PROJECT_ROOT}/human_ctrl"
-elif [ -f "${SCRIPT_DIR}/human_ctrl" ]; then
-    # 兼容旧打包结构：脚本和 human_ctrl 在同一目录（build/ 目录下）
-    PROJECT_ROOT="${SCRIPT_DIR}"
-    CONTROLLER_EXE="${PROJECT_ROOT}/human_ctrl"
+# 获取第一个参数
+FIRST_ARG="$1"
+shift  # 移除第一个参数，剩余参数传递给可执行文件
+
+# 检查第一个参数是否是 config.yaml 文件
+CONFIG_FILE=""
+CONTROLLER_EXE=""
+
+if [[ "${FIRST_ARG}" == *"config.yaml"* ]] || [ "$(basename "${FIRST_ARG}")" = "config.yaml" ]; then
+    # 第一个参数是 config.yaml
+    CONFIG_FILE="${FIRST_ARG}"
+    
+    # 解析 config.yaml 路径为绝对路径
+    if [[ "$CONFIG_FILE" != /* ]]; then
+        # 相对路径
+        if [ -f "${SCRIPT_DIR}/../${CONFIG_FILE}" ]; then
+            CONFIG_FILE="${SCRIPT_DIR}/../${CONFIG_FILE}"
+        elif [ -f "${CONFIG_FILE}" ]; then
+            CONFIG_FILE="$(cd "$(dirname "${CONFIG_FILE}")" && pwd)/$(basename "${CONFIG_FILE}")"
+        elif [ -f "$(pwd)/${CONFIG_FILE}" ]; then
+            CONFIG_FILE="$(pwd)/${CONFIG_FILE}"
+        fi
+    fi
+    
+    # 检查配置文件是否存在
+    if [ ! -f "${CONFIG_FILE}" ]; then
+        echo -e "${RED}错误: 找不到配置文件: ${CONFIG_FILE}${NC}"
+        exit 1
+    fi
+    
+    # 从 config.yaml 所在目录推断项目根目录
+    PROJECT_ROOT="$(cd "$(dirname "${CONFIG_FILE}")" && pwd)"
+    
+    # 根据项目结构自动查找可执行文件
+    # 优先级：1. 项目根目录下的 human_ctrl（打包后结构）
+    #         2. build/user/MIT_Controller/human_ctrl（开发环境）
+    if [ -f "${PROJECT_ROOT}/human_ctrl" ]; then
+        CONTROLLER_EXE="${PROJECT_ROOT}/human_ctrl"
+    elif [ -f "${PROJECT_ROOT}/build/user/MIT_Controller/human_ctrl" ]; then
+        CONTROLLER_EXE="${PROJECT_ROOT}/build/user/MIT_Controller/human_ctrl"
+    else
+        echo -e "${RED}错误: 无法找到可执行文件${NC}"
+        echo "请检查以下位置："
+        echo "  ${PROJECT_ROOT}/human_ctrl"
+        echo "  ${PROJECT_ROOT}/build/user/MIT_Controller/human_ctrl"
+        exit 1
+    fi
 else
-    # 开发环境：脚本在 scripts/ 目录下
-    PROJECT_ROOT="${SCRIPT_DIR}/.."
-    CONTROLLER_EXE="${PROJECT_ROOT}/build/user/MIT_Controller/human_ctrl"
+    # 第一个参数是可执行文件路径
+    CONTROLLER_EXE="${FIRST_ARG}"
+    
+    # 如果指定的是相对路径，尝试解析为绝对路径或相对于脚本目录的路径
+    if [[ "$CONTROLLER_EXE" != /* ]]; then
+        # 相对路径，尝试相对于脚本目录或当前目录
+        if [ -f "${SCRIPT_DIR}/../${CONTROLLER_EXE}" ]; then
+            CONTROLLER_EXE="${SCRIPT_DIR}/../${CONTROLLER_EXE}"
+        elif [ -f "${SCRIPT_DIR}/${CONTROLLER_EXE}" ]; then
+            CONTROLLER_EXE="${SCRIPT_DIR}/${CONTROLLER_EXE}"
+        elif [ ! -f "${CONTROLLER_EXE}" ]; then
+            # 尝试相对于当前目录
+            if [ -f "$(pwd)/${CONTROLLER_EXE}" ]; then
+                CONTROLLER_EXE="$(pwd)/${CONTROLLER_EXE}"
+            fi
+        fi
+    fi
+    
+    # 检测项目根目录（用于查找配置文件和库文件）
+    # 尝试从可执行文件路径推断项目根目录
+    if [ "$(basename "${SCRIPT_DIR}")" = "scripts" ]; then
+        PROJECT_ROOT="${SCRIPT_DIR}/.."
+    elif [[ "${CONTROLLER_EXE}" == *"/build/"* ]]; then
+        # 从 build 路径推断项目根目录
+        PROJECT_ROOT=$(echo "${CONTROLLER_EXE}" | sed 's|/build/.*||')
+    elif [[ "${CONTROLLER_EXE}" == *"/scripts/"* ]]; then
+        # 从 scripts 路径推断项目根目录
+        PROJECT_ROOT=$(echo "${CONTROLLER_EXE}" | sed 's|/scripts/.*||')
+    else
+        # 默认使用脚本目录的上一级
+        PROJECT_ROOT="${SCRIPT_DIR}/.."
+    fi
+    
+    # 查找配置文件
+    if [ -f "${PROJECT_ROOT}/config.yaml" ]; then
+        CONFIG_FILE="${PROJECT_ROOT}/config.yaml"
+    fi
 fi
 
 # 检查可执行文件是否存在
 if [ ! -f "${CONTROLLER_EXE}" ]; then
-    echo -e "${RED}错误: 找不到控制器可执行文件: ${CONTROLLER_EXE}${NC}"
-    echo "请先编译项目: cd build && make -j4"
+    echo -e "${RED}错误: 找不到指定的可执行文件: ${CONTROLLER_EXE}${NC}"
+    echo "请检查文件路径是否正确"
     exit 1
 fi
 
+# 检查文件是否可执行
+if [ ! -x "${CONTROLLER_EXE}" ]; then
+    echo -e "${YELLOW}警告: 文件不可执行: ${CONTROLLER_EXE}${NC}"
+    echo "尝试添加执行权限..."
+    chmod +x "${CONTROLLER_EXE}" 2>/dev/null || {
+        echo -e "${RED}错误: 无法添加执行权限${NC}"
+        exit 1
+    }
+fi
+
 # 检查配置文件是否存在
-if [ ! -f "${PROJECT_ROOT}/config.yaml" ]; then
-    echo -e "${YELLOW}警告: 找不到配置文件: ${PROJECT_ROOT}/config.yaml${NC}"
-    echo "控制器将尝试在当前目录查找配置文件"
+if [ -z "${CONFIG_FILE}" ] || [ ! -f "${CONFIG_FILE}" ]; then
+    if [ -f "${PROJECT_ROOT}/config.yaml" ]; then
+        CONFIG_FILE="${PROJECT_ROOT}/config.yaml"
+    else
+        echo -e "${YELLOW}警告: 找不到配置文件: ${PROJECT_ROOT}/config.yaml${NC}"
+        echo "控制器将尝试在当前目录查找配置文件"
+    fi
 fi
 
 # 检查 URDF 文件是否存在
@@ -127,6 +223,10 @@ echo -e "${GREEN}========================================${NC}"
 echo -e "${GREEN}  人形机器人控制器启动${NC}"
 echo -e "${GREEN}========================================${NC}"
 echo -e "${BLUE}工作目录: ${PROJECT_ROOT}${NC}"
+echo -e "${BLUE}运行文件: ${CONTROLLER_EXE}${NC}"
+if [ -n "${CONFIG_FILE}" ]; then
+    echo -e "${BLUE}配置文件: ${CONFIG_FILE}${NC}"
+fi
 echo ""
 
 # 保存环境变量（用于 sudo 时传递）
@@ -154,8 +254,14 @@ if [ "$EUID" -eq 0 ] && [ -n "$SUDO_USER" ]; then
     fi
     
     # 从config.yaml读取conda配置
-    CONDA_ENV_NAME=$(python3 -c "import yaml, sys; f=open('${PROJECT_ROOT}/config.yaml'); config=yaml.safe_load(f); print(config.get('algorithm_launcher', {}).get('conda_env_name', 'humanoid_controller'))" 2>/dev/null || echo "humanoid_controller")
-    CONDA_SEARCH_PATHS_STR=$(python3 -c "import yaml, sys; f=open('${PROJECT_ROOT}/config.yaml'); config=yaml.safe_load(f); paths=config.get('algorithm_launcher', {}).get('conda_search_paths', []); print(' '.join(paths))" 2>/dev/null || echo "")
+    CONFIG_FILE_TO_READ="${CONFIG_FILE:-${PROJECT_ROOT}/config.yaml}"
+    if [ -f "${CONFIG_FILE_TO_READ}" ]; then
+        CONDA_ENV_NAME=$(python3 -c "import yaml, sys; f=open('${CONFIG_FILE_TO_READ}'); config=yaml.safe_load(f); print(config.get('algorithm_launcher', {}).get('conda_env_name', 'humanoid_controller'))" 2>/dev/null || echo "humanoid_controller")
+        CONDA_SEARCH_PATHS_STR=$(python3 -c "import yaml, sys; f=open('${CONFIG_FILE_TO_READ}'); config=yaml.safe_load(f); paths=config.get('algorithm_launcher', {}).get('conda_search_paths', []); print(' '.join(paths))" 2>/dev/null || echo "")
+    else
+        CONDA_ENV_NAME="humanoid_controller"
+        CONDA_SEARCH_PATHS_STR=""
+    fi
     
     # 将读取到的路径字符串转换为数组，并展开$HOME变量
     read -r -a CONDA_SEARCH_PATHS <<< "$CONDA_SEARCH_PATHS_STR"

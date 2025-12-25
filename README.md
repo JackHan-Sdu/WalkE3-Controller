@@ -99,9 +99,16 @@ In another terminal:
 # Make sure conda environment is activated
 conda activate humanoid_controller
 
-# Start controller algorithm
-bash scripts/run_controller.sh
+# Start controller algorithm (recommended: specify config file)
+bash scripts/run_controller.sh ./config.yaml
+
+# Or directly specify executable file path
+bash scripts/run_controller.sh ./human_ctrl
+# Or for development environment:
+bash scripts/run_controller.sh ./build/user/MIT_Controller/human_ctrl
 ```
+
+**Note**: The `run_controller.sh` script can accept either a config file path (`config.yaml`) or an executable file path as an argument. If a config file is specified, the script will automatically locate the corresponding executable file.
 
 ---
 
