@@ -1,0 +1,246 @@
+# 人形机器人部署通用框架 - 主配置文件
+# 作者: Han Jiang (jh18954242606@163.com)
+# 日期: 2025-12
+# 生成时间: 2025-12-25 11:16:28
+# 注意: 此文件由配置编辑器自动生成
+
+motor_communication:
+  type: lcm
+  ethercat:
+    interface_name: enp1s0
+  lcm_channels:
+    joint_state: HUMANOID_JOINT_STATE_01
+    joint_command: HUMANOID_JOINT_COMMAND_01
+    imu_data: MICROSTRAIN_IMU_DATA_01
+simulation:
+  enable_mujoco: true
+  mujoco:
+    xml_path: resources/robots/e3/scene_terrain.xml
+    simulation_dt: 0.002
+    control_decimation: 1
+    lcm_url: ""
+robot_control_parameters:
+  controller_dt: 0.002
+  use_rc: 1
+  cheater_mode: 0
+  control_mode: 0
+logging:
+  enable_logging: true
+  log_file_path: log/robot_log.txt
+gamepad:
+  device_type: gamepad
+  joystick_device: /dev/input/js0
+  at9s_port: /dev/ttyUSB0
+  axis_left_stick_x: 0
+  axis_left_stick_y: 1
+  axis_right_stick_x: 2
+  axis_right_stick_y: 3
+  button_a: 1
+  button_b: 2
+  button_back: 8
+  button_lb: 4
+  button_rb: 5
+  button_start: 9
+  button_x: 3
+  button_y: 0
+  deadzone: 0.1
+  speed_forward_max: 0.6
+  speed_backward_max: 0.8
+  speed_lateral_max: 0.6
+  speed_yaw_max: 1.3
+  mode_sequence:
+    - "OFF"
+    - "RL_HYBRID"
+    - "RL_WALK"
+    - "DEVELOPMENT"
+algorithm_launcher:
+  enabled: true
+  python_bin: python3
+  conda_env_name: humanoid_controller
+  conda_search_paths:
+    - "/data/ubuntu20_user/conda_env/humanoid_controller"
+    - "$HOME/miniconda3/envs/humanoid_controller"
+    - "$HOME/anaconda3/envs/humanoid_controller"
+    - "/opt/conda/envs/humanoid_controller"
+  conda_required_packages:
+    - "numpy"
+    - "yaml"
+  conda_optional_packages:
+    - "lcm"
+    - "onnxruntime"
+  script_paths:
+    - "Algorithm_Template_For_Developer/dance_algorithm_getup/run_algorithm.py"
+    - "Algorithm_Template_For_Developer/dance_algorithm_chair/run_algorithm.py"
+  script_names:
+    - "dance_algorithm_getup"
+    - "dance_algorithm_chair"
+  gamepad_prev_button: lb
+  gamepad_next_button: rb
+  gamepad_confirm_button: b
+  at9s_varB_thresholds: [1.0]
+imu:
+  port_base: /dev/ttyACM
+  port_number: 0
+safety_checker:
+  enable_safety_check: true
+  enable_orientation_check: false
+  enable_joint_torque_check: false
+  enable_joint_velocity_check: false
+  enable_joint_position_check: false
+  enable_leg_cartesian_velocity_check: true
+  enable_hardware_loss_check: false
+  enable_hardware_loss_print: true
+  urdf_path: resources/robots/e3/e3.urdf
+  safety_margin_factor: 0.9
+  max_roll_deg: 50.0
+  max_pitch_deg: 70.0
+  max_leg_cartesian_vel: 25.0
+  exceed_count_threshold_joint_vel: 5
+  exceed_count_threshold_joint_pos: 5
+  exceed_count_threshold_joint_torque: 5
+  exceed_count_threshold_leg_vel: 5
+  exceed_count_threshold_orientation: 3
+  hardware_loss_threshold: 200
+  hardware_loss_velocity_threshold: 1e-06
+rl_walk:
+  model_path: actor_model/walk/HumanActornet.onnx
+  encoder_path: actor_model/walk/HumanEncodernet.onnx
+  log_file_path: log/log_RL_data.csv
+  enable_logging: true
+  obs_dim: 72
+  hidden_dim: 64
+  en_hidden_dim: 256
+  joint_dim: 21
+  leg_dim: 12
+  arm_dim: 9
+  latent_dim: 37
+  control_dt: 0.02
+  decimation: 10
+  pre_count_first_run: 200
+  pre_count_normal: 50
+  action_scale: 0.25
+  dof_pos_scale: 1.0
+  lin_vel_scale: 2.0
+  ang_vel_scale: 0.25
+  command_scale: 2.0
+  dof_vel_scale: 0.05
+  quat_scale: 1.0
+  clip_obs: 100.0
+  clip_action: 100.0
+  tau_limit: 200.0
+  period_default: 0.8
+  period_fast: 0.6
+  speed_threshold: 0.3
+  cmd_threshold: 0.2
+  command_deadzone: 0.2
+  command_forward_scale: 0.8
+  command_lateral_scale: 0.8
+  command_yaw_scale: 0.4
+  default_leg_pos: [-0.1, 0.0, 0.0, 0.15, -0.0, 0, -0.1, -0.0, 0.0, 0.15, -0.0, 0]
+  default_arm_pos: [0.0, 0.05, 0.1, 0.1, 0.9, 0.05, -0.1, -0.1, 0.9]
+  leg_kp: [10, 8, 8, 10, 20, 20, 10, 8, 8, 10, 20, 20]
+  leg_kd: [0.4, 0.2, 0.2, 0.4, 0.7, 0.7, 0.4, 0.2, 0.2, 0.4, 0.7, 0.7]
+  arm_kp: [10, 20, 20, 20, 20, 20, 20, 20, 20]
+  arm_kd: [0.4, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+  pre_count_leg_kp: [10, 10, 10, 10, 20, 20]
+  pre_count_leg_kd: [0.7, 0.7, 0.7, 0.7, 0.7, 0.7]
+  pre_count_arm_kp: [30, 30, 20, 20]
+  pre_count_arm_kd: [0.5, 0.5, 0.5, 0.5]
+  pre_count_wrist_kp: 10
+  pre_count_wrist_kd: 0.4
+  roll_threshold: 0.3
+  pitch_threshold: 0.3
+  warmup_count: 500
+  save_state: false
+  load_saved_state: true
+  hidden_state_file: log/walk_hidden_state.bin
+rl_dance:
+  model_path: actor_model/recover/HumanActornet.onnx
+  motion_file: actor_model/recover/E3Getup350.npz
+  obs_dim: 114
+  joint_dim: 21
+  leg_dim: 12
+  arm_dim: 9
+  control_dt: 0.02
+  decimation: 10
+  all_precount: 200
+  pre_count_first_run: 200
+  pre_count_normal: 200
+  transition_precount: 100
+  transition_speed: 0.002
+  motion_timestep: 5
+  action_scale: 0.25
+  clip_obs: 100.0
+  clip_action: 100.0
+  pre_count_leg_kp: [20, 20, 20, 20, 80, 80]
+  pre_count_leg_kd: [0.4, 0.4, 0.5, 0.5, 2, 2]
+  pre_count_arm_kp: [20, 20, 20, 20]
+  pre_count_arm_kd: [0.4, 0.4, 0.4, 0.4]
+  pre_count_wrist_kp: 20
+  pre_count_wrist_kd: 0.4
+  warmup_count: 500
+  roll_threshold: 0.4
+  pitch_threshold: 0.4
+  motion_roll_threshold: 10
+  motion_pitch_threshold: 0.5
+  action_buffer_load: true
+  action_buffer_file: log/hybrid_dance_action_buffer_walk.bin
+rl_hybrid:
+  dance_model_path: actor_model/recover/HumanActornet.onnx
+  dance_motion_file: actor_model/recover/E3Getup350.npz
+  walk_model_path: actor_model/walk/HumanActornet.onnx
+  walk_encoder_path: actor_model/walk/HumanEncodernet.onnx
+  walk_default_leg_pos: [-0.1, 0.0, 0.0, 0.15, -0.0, 0, -0.1, -0.0, 0.0, 0.15, -0.0, 0]
+  walk_default_arm_pos: [0.0, 0.05, 0.1, 0.1, 0.9, 0.05, -0.1, -0.1, 0.9]
+  walk_leg_kp: [10, 8, 8, 10, 20, 20, 10, 8, 8, 10, 20, 20]
+  walk_leg_kd: [0.4, 0.2, 0.2, 0.4, 0.7, 0.7, 0.4, 0.2, 0.2, 0.4, 0.7, 0.7]
+  walk_arm_kp: [10, 20, 20, 20, 20, 20, 20, 20, 20]
+  walk_arm_kd: [0.4, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+  control_dt: 0.002
+  decimation: 10
+  motion_timestep_up: 320
+  motion_timestep_down: 120
+  transition_duration: 3.0
+  transition_max_joint_diff: 3.0
+  transition_max_step: 0.2
+  transition_max_velocity: 5.0
+  dance_roll_threshold: 0.3
+  dance_pitch_threshold: 0.2
+  dance_joint_threshold: 0.2
+  walk_roll_threshold: 0.2
+  walk_pitch_threshold: 0.2
+  walk_joint_threshold: 0.5
+  dance_warmup_count: 500
+  walk_warmup_count: 500
+  walk_save_state: false
+  walk_load_saved_state: true
+  walk_hidden_state_file: log/hybrid_walk_hidden_state.bin
+  dance_action_buffer_save: false
+  dance_action_buffer_load: true
+  dance_action_buffer_transition_file: log/hybrid_dance_action_buffer_transition.bin
+  dance_action_buffer_walk_file: log/hybrid_dance_action_buffer_walk.bin
+recovery_stand:
+  fold_ramp_iter: 1000
+  fold_settle_iter: 1000
+  standup_ramp_iter: 1000
+  standup_settle_iter: 1000
+  fold_leg_pos_right: [-0.1, 0.0, 0.0, 0.3, 0.0, 0.0]
+  fold_leg_pos_left: [-0.1, 0.0, 0.0, 0.3, 0.0, 0.0]
+  fold_arm_pos_right: [0, 0, 0.0, 0.6]
+  fold_arm_pos_left: [0, 0, 0.0, 0.6]
+  fold_waist_pos: 0.0
+  stand_leg_base_right: [-0.02, 0.01, -0.15, 0.1]
+  stand_leg_base_left: [-0.02, -0.01, 0.15, 0.1]
+  stand_arm_pos_right: [0.01, -0.3, 0.3, 1.2]
+  stand_arm_pos_left: [0.01, 0.3, -0.3, 1.2]
+  ankle_roll_init: -0.0
+  ankle_pitch_init: 0.0
+development:
+  robot_id: E3
+  state_channel: E3_development_state_01
+  command_channel: E3_development_command_01
+  roll_threshold: 0.3
+  pitch_threshold: 0.3
+  save_state: false
+  load_saved_state: true
+  hidden_state_file: log/development_hidden_state.bin

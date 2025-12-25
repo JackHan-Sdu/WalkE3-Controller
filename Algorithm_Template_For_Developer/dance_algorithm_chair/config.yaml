@@ -1,0 +1,88 @@
+# 跳舞算法配置文件
+algorithm_name: "dance_algorithm_chair"
+
+# 策略配置
+policy:
+  type: "onnx"
+  path: "./HumanActornet.onnx"
+  read_metadata: true
+  warmup_count: 500  # ONNX 模型预热次数（使用真实状态进行推理，检测action异常）
+  action_threshold: 200.0  # Action异常检测阈值（如果action绝对值超过此值，认为异常）
+
+# 数据集配置
+dataset:
+  path: "./dataset/chair.npz"
+  enabled: true
+  start_timestep: 50  # 开始时间步
+  loop: false  # 是否循环播放（false=执行完就结束）
+
+# 模型参数（如果read_metadata=false，需要手动配置）
+# 注意：这些参数通常从ONNX模型的metadata中读取，如果read_metadata=true
+model_params:
+  num_actions: 21
+  num_obs: 114
+  # 以下参数如果read_metadata=true，将从模型metadata读取，这里提供默认值
+  # default_joint_pos: [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  # joint_stiffness: [100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]
+  # joint_damping: [10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0]
+  # action_scale: [0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25, 0.25]
+
+# LCM配置
+lcm:
+  url: "udpm://239.255.76.67:7667?ttl=255"
+  state_channel: "E3_development_state_01"
+  command_channel: "E3_development_command_01"
+  robot_id: "E3"
+
+# 执行配置
+execution:
+  frequency: 50.0  # 策略推理频率（Hz，如50Hz）
+  lcm_send_frequency: 500.0  # LCM发送频率（Hz，固定500Hz）
+  auto_start: true
+  auto_end: true
+  max_execution_time: 0.0  # 0表示无限制
+
+# 强化学习模式配置
+rl_mode:
+  is_rl_mode: true
+
+# 关节映射配置
+joint_mapping:
+  model_joint_order: []  # 从metadata读取
+  robot_joint_order: []  # 标准顺序
+  enabled: false
+
+# 调试配置
+debug:
+  print_config: false  # 是否打印配置文件内容
+  print_metadata: false  # 是否打印ONNX模型metadata内容
+
+# 跳舞算法特定配置
+dance:
+  # 关节顺序（XML中的顺序）
+  joint_xml_order:
+    - "left_hip_pitch_joint"
+    - "left_hip_roll_joint"
+    - "left_hip_yaw_joint"
+    - "left_knee_joint"
+    - "left_ankle_pitch_joint"
+    - "left_ankle_roll_joint"
+    - "right_hip_pitch_joint"
+    - "right_hip_roll_joint"
+    - "right_hip_yaw_joint"
+    - "right_knee_joint"
+    - "right_ankle_pitch_joint"
+    - "right_ankle_roll_joint"
+    - "waist_joint"
+    - "left_shoulder_pitch_joint"
+    - "left_shoulder_roll_joint"
+    - "left_shoulder_yaw_joint"
+    - "left_elbow_joint"
+    - "right_shoulder_pitch_joint"
+    - "right_shoulder_roll_joint"
+    - "right_shoulder_yaw_joint"
+    - "right_elbow_joint"
+  
+  # 参考body名称（用于计算anchor orientation）
+  reference_body: "pelvis_link"
+

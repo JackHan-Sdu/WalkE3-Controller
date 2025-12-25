@@ -1,0 +1,31 @@
+[DanceAlgorithm] Using config file: /home/user/Jianghan/Code/deploy/walker_controller/Algorithm_Template_For_Developer/dance_algorithm_kungfu/config.yaml
+[DanceAlgorithm] History observation length: 5
+[LCMInterface] Subscribed to state channel: E3_development_state_01
+[DanceAlgorithm] Loading policy from: /home/user/Jianghan/Code/deploy/walker_controller/Algorithm_Template_For_Developer/dance_algorithm_kungfu/./HumanActornet.onnx
+[DanceAlgorithm] Joint position array mapped: 21 joints
+[DanceAlgorithm] Policy loaded successfully
+[DanceAlgorithm] Warming up policy with 500 real state inferences...
+[DanceAlgorithm] Action threshold: 200.0
+
+[DanceAlgorithm] No valid action in warmup, using current action_buffer
+[DanceAlgorithm] Policy warmup completed successfully (0/500 successful inferences)
+[DanceAlgorithm] Initialized: dance_algorithm_kungfu
+[DanceAlgorithm] Policy type: onnx
+[DanceAlgorithm] Policy inference frequency: 50.0 Hz
+[DanceAlgorithm] LCM send frequency: 500.0 Hz
+[DanceAlgorithm] Dataset loaded: 1142 frames
+[DanceAlgorithm] Motion initial yaw: -1.5229 rad
+[DanceAlgorithm] Initialized with dataset: /home/user/Jianghan/Code/deploy/walker_controller/Algorithm_Template_For_Developer/dance_algorithm_kungfu/./dataset/motion.npz
+[DanceAlgorithm] Start timestep: 50, Loop: False
+[DanceAlgorithm] Starting algorithm runner...
+[DanceAlgorithm] Execution loop started
+[DanceAlgorithm] LCM send loop started (500.0 Hz)
+[DanceAlgorithm] Starting development mode...
+[DanceAlgorithm] Initialized action_buffer with warmup's last action (smooth transition)
+[DanceAlgorithm] Robot initial yaw: 1.8804 rad
+[DanceAlgorithm] Yaw alignment initialized: yaw_diff = -3.4033 rad
+[DanceAlgorithm] Reset timestep to 50
+[DanceAlgorithm] Execution complete (1142 timesteps). Sending end signal...
+[DanceAlgorithm] Ending development mode...
+[DanceAlgorithm] Development mode ended. Exiting program...
+[DanceAlgorithm] Shutdown complete

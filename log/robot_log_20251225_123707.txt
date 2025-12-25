@@ -1,0 +1,73 @@
+
+========== Log Session Started: 2025-12-25 12:37:07 ==========
+[37m[LogSaver] Logging enabled, saving to: /home/user/Jianghan/Code/deploy/walker_controller/log/robot_log_20251225_123707.txt[0m
+[37m[Yobotics Humanoid E3] Starting in MuJoCo simulation mode[0m
+[37m[MuJoCo] Initialized | dt=0.002s | decimation=1[0m
+[37m[SimulationBridge] Config | dt=0.002s | RC=ON | Cheater=OFF[0m
+[37m[RC Interface] Read device_type from config: at9s[0m
+[92m[AlgoLauncher] Conda environment: humanoid_controller (/data/ubuntu20_user/conda_env/humanoid_controller/bin/python)[0m
+[92m[AlgoLauncher] Required packages: numpy✓, yaml✓[0m
+[37m[AlgoLauncher] Auto thresholds generated for varB (count=2)[0m
+[37m[AlgoLauncher] enabled=1, scripts=3, python_bin=python3[0m
+[37m  [0] dance_algorithm_getup -> ./Algorithm_Template_For_Developer/dance_algorithm_getup/run_algorithm.py[0m
+[37m  [1] dance_algorithm_kungfu -> ./Algorithm_Template_For_Developer/dance_algorithm_kungfu/run_algorithm.py[0m
+[37m  [2] dance_algorithm_chair -> ./Algorithm_Template_For_Developer/dance_algorithm_chair/run_algorithm.py[0m
+[37m  [AT9S] varB in [0, 0.666667) -> idx 0 (dance_algorithm_getup)[0m
+[37m  [AT9S] varB in [0.666667, 1.33333) -> idx 1 (dance_algorithm_kungfu)[0m
+[37m  [AT9S] varB in [1.33333, +inf) -> idx 2 (dance_algorithm_chair)[0m
+[37m[RC Interface] Using AT9S (device_type=at9s)[0m
+[37m[RC Interface] Final state: g_use_gamepad_driver=0, g_gamepad_driver_initialized=1[0m
+[37m[SimulationBridge] RC interface initialized: using_gamepad=0[0m
+[37m[SimulationBridge] Initializing SBUS...[0m
+	[RT SERIAL] Configuring serial device...
+[92m[SBUS] Port initialized: /dev/ttyUSB0[0m
+[37m[SimulationBridge] SBUS initialized successfully (_port=17)[0m
+[37m[SimulationBridge] Started SBUS controller task (device connected)[0m
+[37m[SimulationBridge] Running...
+[0m
+[37m[RobotRunner] Using LCM communication[0m
+[37m[RobotRunner] LCM channels - State: HUMANOID_JOINT_STATE_01 | Command: HUMANOID_JOINT_COMMAND_01[0m
+[33m[RL_Walk] Config | Model: HumanActornet.onnx | Mode: Sim | dt=0.02s | decimation=10[0m
+[33m[RL_Walk] Using embedded ONNX models (from memory)[0m
+[37m[AT9S] [2025-12-25 12:37:08.506] Mode switch: OFF -> DEVELOPMENT[0m
+[37m[AlgoLauncher] AT9S select idx 1 (dance_algorithm_kungfu), varB=1.12429[0m
+[33m[RL_Walk] Warming up ONNX models (500 iterations)...[0m
+[33m[RL_Walk] ONNX models warmed up successfully[0m
+[33m[RL_Walk] Self-check thresholds: roll=0.3 rad, pitch=0.3 rad[0m
+[33m[RL_Walk] Hidden state file found: /home/user/Jianghan/Code/deploy/walker_controller/log/walk_hidden_state.bin (will be loaded on enter)[0m
+[33m[RL_Walk] Hidden state saving disabled (save_state=false)[0m
+[94m[RL_Dance] Config | Model: HumanActornet.onnx | Motion: E3Getup350.npz | dt=0.02s | decimation=10 | pre=200 | trans_pre=100[0m
+[94m[RL_Dance] Using embedded ONNX model (from memory)[0m
+[94m[RL_Dance] Warming up ONNX model (500 iterations)...[0m
+[94m[RL_Dance] ONNX model warmed up successfully[0m
+[94m[RL_Dance] Self-check thresholds:[0m
+[94m  Start frame - roll: 0.4 rad, pitch: 0.4 rad[0m
+[94m  Motion frame - roll: 10 rad, pitch: 0.5 rad[0m
+[94m[RL_Dance] Successfully loaded action buffer from: /home/user/Jianghan/Code/deploy/walker_controller/log/hybrid_dance_action_buffer_walk.bin[0m
+[36m[RL_Hybrid] Using embedded dance ONNX model (from memory)[0m
+[36m[RL_Hybrid] Using embedded walk ONNX models (from memory)[0m
+[36m[RL_Hybrid] Warming up ONNX models...[0m
+[36m[RL_Hybrid] Warming up dance model (500 iterations)...[0m
+[36m[RL_Hybrid] Dance model warmed up successfully[0m
+[36m[RL_Hybrid] Warming up walk model (500 iterations)...[0m
+[36m[RL_Hybrid] Walk model warmed up successfully[0m
+[36m[RL_Hybrid] Transition max iterations: 1500[0m
+[36m[RL_Hybrid] Self-check thresholds:[0m
+[36m  Transition - max_step: 0.2 rad, max_velocity: 5 rad/s[0m
+[36m  Dance - roll: 0.3 rad, pitch: 0.2 rad, joint: 0.2 rad[0m
+[36m  Walk - roll: 0.2 rad, pitch: 0.2 rad[0m
+[36m[RL_Hybrid] Walk hidden state file found: /home/user/Jianghan/Code/deploy/walker_controller/log/hybrid_walk_hidden_state.bin (will be loaded on enter)[0m
+[36m[RL_Hybrid] Walk hidden state saving disabled (walk_save_state=false)[0m
+[35m[Development] Config | Model: HumanActornet.onnx | Mode: Sim | dt=0.02s | decimation=10[0m
+[35m[Development] Robot ID: E3[0m
+[35m[Development] State Channel: E3_development_state_01[0m
+[35m[Development] Command Channel: E3_development_command_01[0m
+[35m[Development] Self-check thresholds - Roll: 0.3 rad, Pitch: 0.3 rad[0m
+[35m[Development] Using embedded ONNX models (from memory)[0m
+[35m[Development] Warming up ONNX models (500 iterations)...[0m
+[35m[Development] ONNX models warmed up successfully[0m
+[35m[Development] Hidden state file found: /home/user/Jianghan/Code/deploy/walker_controller/log/development_hidden_state.bin (will be loaded on enter)[0m
+[35m[Development] Hidden state saving disabled (save_state=false)[0m
+[92m[SafetyChecker] Checks | Ori:OFF Torque:OFF Vel:OFF Pos:OFF LegVel:ON HwLoss:OFF HwLossPrint:ON[0m
+[92m[SafetyChecker] Loaded 21 joints from URDF (margin=0.9)[0m
+[93m[CONTROL FSM] Bad Request: Cannot transition from 0 to 8[0m

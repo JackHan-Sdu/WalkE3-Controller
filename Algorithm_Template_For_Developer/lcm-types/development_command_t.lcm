@@ -1,0 +1,49 @@
+struct development_command_t
+{
+    // 机器人标识（用于标记目标机器人）
+    string robot_id;
+    
+    // 控制标志
+    int32_t enable_development_mode;  // 1=开始开发模式, 0=结束开发模式
+    
+    // 是否是强化学习模式（1=是，0=否）
+    // 如果是强化学习模式：状态机接手后，对踝关节进行扭矩计算，下发的kp/kd全清零
+    // 如果不是强化学习模式：全部一样赋值（直接使用外部传过来的kp/kd/期望角度/期望速度/期望扭矩）
+    int32_t is_rl_mode;
+    
+    // 所有关节的期望角度（12腿+9臂=21维）
+    float L_Leg_q[6];
+    float R_Leg_q[6];
+    float L_Arm_q[4];
+    float R_Arm_q[4];
+    float waist_q;
+    
+    // 所有关节的期望速度
+    float L_Leg_qd[6];
+    float R_Leg_qd[6];
+    float L_Arm_qd[4];
+    float R_Arm_qd[4];
+    float waist_qd;
+    
+    // 所有关节的期望扭矩
+    float L_Leg_tau[6];
+    float R_Leg_tau[6];
+    float L_Arm_tau[4];
+    float R_Arm_tau[4];
+    float waist_tau;
+    
+    // 所有关节的kp
+    float L_Leg_kp[6];
+    float R_Leg_kp[6];
+    float L_Arm_kp[4];
+    float R_Arm_kp[4];
+    float waist_kp;
+    
+    // 所有关节的kd
+    float L_Leg_kd[6];
+    float R_Leg_kd[6];
+    float L_Arm_kd[4];
+    float R_Arm_kd[4];
+    float waist_kd;
+}
+

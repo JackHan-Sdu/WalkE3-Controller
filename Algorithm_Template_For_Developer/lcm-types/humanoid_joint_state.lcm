@@ -1,0 +1,22 @@
+struct humanoid_joint_state_t
+{
+   float L_Leg_q[6];
+   float R_Leg_q[6];
+   float L_Arm_q[4];
+   float R_Arm_q[4];
+   float L_Leg_qd[6];
+   float R_Leg_qd[6];
+   float L_Arm_qd[4];
+   float R_Arm_qd[4];
+   float L_Leg_tau[6];
+   float R_Leg_tau[6];
+   float L_Arm_tau[4];
+   float R_Arm_tau[4];
+   float Head_q;
+   float Head_qd;
+   float Head_tau;
+   float waist_q;
+   float waist_qd;
+   float waist_tau;
+}
+

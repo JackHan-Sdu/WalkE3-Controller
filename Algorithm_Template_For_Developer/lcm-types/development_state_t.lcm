@@ -1,0 +1,37 @@
+struct development_state_t
+{
+    // 机器人标识（用于标记机器人型号）
+    string robot_id;
+    
+    // 关节状态（与humanoid_joint_state_t相同）
+    float L_Leg_q[6];
+    float R_Leg_q[6];
+    float L_Arm_q[4];
+    float R_Arm_q[4];
+    float L_Leg_qd[6];
+    float R_Leg_qd[6];
+    float L_Arm_qd[4];
+    float R_Arm_qd[4];
+    float L_Leg_tau[6];
+    float R_Leg_tau[6];
+    float L_Arm_tau[4];
+    float R_Arm_tau[4];
+    float Head_q;
+    float Head_qd;
+    float Head_tau;
+    float waist_q;
+    float waist_qd;
+    float waist_tau;
+    
+    // IMU数据（与microstrain_lcmt相同）
+    float quat[4];
+    float rpy[3];
+    float omega[3];
+    float acc[3];
+    
+    // 遥控器指令
+    float v_des[3];      // 期望速度 [vx, vy, omega_z]
+    float omega_des[3];  // 期望角速度
+    int32_t mode;        // 控制模式
+}
+
